@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Train Ticket · Maniroopk</title>
+  <!-- Font Awesome 6 (free) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+    }
+
+    body {
+      background: #eef2f6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 2rem 1rem;
+    }
+
+    .ticket-wrapper {
+      max-width: 1000px;
+      width: 100%;
+      background: #ffffff;
+      border-radius: 2.5rem;
+      box-shadow: 0 20px 40px -12px rgba(0, 20, 30, 0.3), 0 8px 20px -8px rgba(0, 0, 0, 0.08);
+      padding: 2rem 2rem 2rem 2rem;
+      transition: 0.2s;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+    }
+
+    /* ---- header row (welcome + badges) ---- */
+    .header-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem 0.5rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 2px solid #e9eef4;
+      margin-bottom: 1.2rem;
+    }
+
+    .welcome {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+
+    .welcome .greet {
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: #1f3347;
+    }
+
+    .welcome .greet i {
+      color: #2b5f8a;
+      margin-right: 4px;
+    }
+
+    .welcome .user {
+      background: #eaf1fa;
+      padding: 0.25rem 1rem 0.25rem 1rem;
+      border-radius: 40px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: #1f4a6e;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .badge-group {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      background: #eef4fc;
+      padding: 0.25rem 1rem;
+      border-radius: 40px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #1d3b58;
+      letter-spacing: 0.3px;
+      border: 1px solid #dae4f0;
+    }
+
+    .badge i {
+      margin-right: 5px;
+      color: #2f6491;
+    }
+
+    .badge-gold {
+      background: #f7f0d6;
+      border-color: #e2cf9a;
+      color: #7a631f;
+    }
+
+    /* ---- nav links ---- */
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.8rem 1.6rem;
+      background: #f6faff;
+      padding: 0.5rem 1.2rem;
+      border-radius: 50px;
+      margin-bottom: 1.5rem;
+      border: 1px solid #e0eaf5;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #1e3f5e;
+      font-weight: 500;
+      font-size: 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: 0.1s;
+      padding: 0.2rem 0.4rem;
+      border-radius: 30px;
+    }
+
+    .nav-links a i {
+      color: #3a6b94;
+      font-size: 0.9rem;
+    }
+
+    .nav-links a:hover {
+      background: #e2ecfa;
+      color: #10354f;
+    }
+
+    .cashback-tag {
+      margin-left: auto;
+      background: #e1f0e6;
+      color: #0f5535;
+      padding: 0.2rem 1rem;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 0.75rem;
+      letter-spacing: 0.3px;
+      border: 1px solid #b8d5c2;
+    }
+
+    /* ---- two column layout ---- */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-top: 0.6rem;
+    }
+
+    @media (max-width: 720px) {
+      .two-col {
+        grid-template-columns: 1fr;
+        gap: 1.8rem;
+      }
+    }
+
+    /* ---- left column : last transaction + book ticket ---- */
+    .card {
+      background: #f9fcff;
+      border-radius: 1.8rem;
+      padding: 1.2rem 1.5rem 1.5rem 1.5rem;
+      border: 1px solid #e8eff8;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.01);
+    }
+
+    .card-title {
+      font-weight: 700;
+      color: #1f3f5c;
+      font-size: 1rem;
+      letter-spacing: -0.2px;
+      margin-bottom: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card-title i {
+      color: #2f6491;
+      font-size: 1rem;
+    }
+
+    .transaction-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem 1.2rem;
+      background: #ffffff;
+      padding: 0.8rem 1rem;
+      border-radius: 1.2rem;
+      border: 1px solid #e6eff8;
+    }
+
+    .tx-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .tx-item .label {
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #6a87a3;
+      font-weight: 600;
+    }
+
+    .tx-item .value {
+      font-weight: 600;
+      color: #142b40;
+      font-size: 0.95rem;
+    }
+
+    .tx-item .value.booked {
+      color: #1b7a4b;
+      background: #e2f3e9;
+      padding: 0.05rem 0.7rem;
+      border-radius: 40px;
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+
+    /* book ticket form */
+    .book-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      gap: 1rem 1.2rem;
+      margin-top: 0.4rem;
+    }
+
+    .book-field {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      flex: 1 0 100px;
+    }
+
+    .book-field label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: #3d5e7a;
+      letter-spacing: 0.3px;
+    }
+
+    .book-field input, .book-field select {
+      background: white;
+      border: 1.5px solid #d7e2f0;
+      border-radius: 30px;
+      padding: 0.5rem 1rem;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: #122b42;
+      outline: none;
+      transition: 0.15s;
+      width: 100%;
+    }
+
+    .book-field input:focus, .book-field select:focus {
+      border-color: #2f6491;
+      box-shadow: 0 0 0 3px rgba(47, 100, 145, 0.15);
+    }
+
+    .book-field .date-icon {
+      position: relative;
+    }
+
+    .book-field input[type="text"] {
+      background: white;
+    }
+
+    .search-btn {
+      background: #1f4b77;
+      border: none;
+      color: white;
+      font-weight: 600;
+      padding: 0.5rem 1.8rem;
+      border-radius: 40px;
+      font-size: 0.85rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: 0.15s;
+      border: 1px solid #34658f;
+      margin-left: auto;
+      box-shadow: 0 6px 12px -6px #1f4b7740;
+    }
+
+    .search-btn:hover {
+      background: #123a5e;
+      transform: scale(1.02);
+    }
+
+    /* ---- right column : upcoming journeys ---- */
+    .journey-card {
+      background: #f9fcff;
+      border-radius: 1.8rem;
+      padding: 1.2rem 1.5rem 1.5rem 1.5rem;
+      border: 1px solid #e8eff8;
+      margin-bottom: 1.2rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.01);
+    }
+
+    .journey-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 0.3rem 0.6rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .train-name {
+      font-weight: 700;
+      color: #113753;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .train-name i {
+      color: #2f6491;
+    }
+
+    .train-code {
+      font-weight: 400;
+      color: #4b6d8b;
+      font-size: 0.7rem;
+      background: #e7eff9;
+      padding: 0.15rem 0.8rem;
+      border-radius: 30px;
+    }
+
+    .journey-detail {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.3rem 1.2rem;
+      margin-top: 0.2rem;
+      font-size: 0.85rem;
+      color: #1e3e5a;
+    }
+
+    .journey-detail .j-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: #edf4fd;
+      padding: 0.15rem 0.8rem;
+      border-radius: 30px;
+      font-weight: 500;
+    }
+
+    .journey-detail .j-item i {
+      color: #3a6b94;
+      font-size: 0.7rem;
+    }
+
+    .action-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem 0.8rem;
+      margin-top: 0.8rem;
+      padding-top: 0.6rem;
+      border-top: 1px dashed #dae3ef;
+    }
+
+    .action-btn {
+      background: #eef4fc;
+      border: none;
+      padding: 0.2rem 1rem;
+      border-radius: 40px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: #1f4a6e;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: 0.1s;
+    }
+
+    .action-btn i {
+      color: #3a6b94;
+      font-size: 0.7rem;
+    }
+
+    .action-btn:hover {
+      background: #dce8f7;
+      border-color: #b7cee8;
+    }
+
+    .search-trains-link {
+      margin-top: 1rem;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .search-trains-link a {
+      background: #eaf1fa;
+      padding: 0.5rem 1.6rem;
+      border-radius: 40px;
+      text-decoration: none;
+      font-weight: 600;
+      color: #1f4a6e;
+      font-size: 0.9rem;
+      border: 1px solid #d0def0;
+      transition: 0.1s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .search-trains-link a:hover {
+      background: #dce8f7;
+      border-color: #a5bfdb;
+    }
+
+    /* small adjustments */
+    .mt-1 { margin-top: 0.4rem; }
+    .fw-700 { font-weight: 700; }
+    .text-muted { color: #4b6d8b; }
+
+    hr {
+      border: none;
+      border-top: 2px solid #e6eef8;
+      margin: 0.6rem 0;
+    }
+
+    .flex {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .gap-1 { gap: 0.5rem; }
+    .wrap { flex-wrap: wrap; }
+
+    /* responsive tweaks */
+    @media (max-width: 500px) {
+      .ticket-wrapper { padding: 1.2rem; }
+      .transaction-grid { grid-template-columns: 1fr; }
+      .book-row { flex-direction: column; align-items: stretch; }
+      .search-btn { margin-left: 0; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="ticket-wrapper">
+
+    <!-- header row -->
+    <div class="header-row">
+      <div class="welcome">
+        <span class="greet"><i class="fas fa-hand-peace"></i> Welcome</span>
+        <span class="user"><i class="fas fa-user-circle"></i> Maniroopk (maniroop2016)</span>
+        <span class="badge"><i class="far fa-calendar-alt"></i> 16-Jun-2026 [17:58:47]</span>
+        <span class="badge">A-</span>
+        <span class="badge">A</span>
+        <span class="badge badge-gold">A+</span>
+      </div>
+      <div class="badge-group">
+        <span class="badge"><i class="fas fa-user-tie"></i> 1</span>
+      </div>
+    </div>
+
+    <!-- nav links -->
+    <div class="nav-links">
+      <a href="#"><i class="fas fa-user"></i> MY ACCOUNT</a>
+      <a href="#"><i class="fas fa-train"></i> TRAINS</a>
+      <a href="#"><i class="fas fa-utensils"></i> MEALS</a>
+      <span class="cashback-tag"><i class="fas fa-percent"></i> Upto 10% Cashback</span>
+    </div>
+
+    <!-- two column layout -->
+    <div class="two-col">
+
+      <!-- LEFT COLUMN -->
+      <div>
+
+        <!-- Last Transaction Detail -->
+        <div class="card">
+          <div class="card-title"><i class="fas fa-receipt"></i> Last Transaction Detail</div>
+          <div class="transaction-grid">
+            <div class="tx-item"><span class="label">Transaction ID</span><span class="value">10000636240102</span></div>
+            <div class="tx-item"><span class="label">Status</span><span class="value booked"><i class="fas fa-check-circle"></i> BOOKED</span></div>
+            <div class="tx-item"><span class="label">Date</span><span class="value">23 Jun 2026</span></div>
+            <div class="tx-item"><span class="label">From</span><span class="value">MMR</span></div>
+            <div class="tx-item"><span class="label">To</span><span class="value">KCG</span></div>
+            <div class="tx-item"><span class="label">Class</span><span class="value">SL</span></div>
+          </div>
+        </div>
+
+        <!-- BOOK TICKET -->
+        <div class="card">
+          <div class="card-title"><i class="fas fa-ticket-alt"></i> BOOK TICKET</div>
+          <div class="book-row">
+            <div class="book-field">
+              <label><i class="fas fa-map-pin"></i> From</label>
+              <input type="text" value="MMR" placeholder="Station">
+            </div>
+            <div class="book-field">
+              <label><i class="fas fa-location-dot"></i> To</label>
+              <input type="text" value="KCG" placeholder="Station">
+            </div>
+            <div class="book-field">
+              <label><i class="far fa-calendar-alt"></i> DD/MM/YYYY *</label>
+              <input type="text" value="16/06/2026">
+            </div>
+            <div class="book-field">
+              <label>Class</label>
+              <select>
+                <option>All Classes</option>
+                <option>SL</option>
+                <option>3A</option>
+                <option>2A</option>
+                <option>1A</option>
+              </select>
+            </div>
+            <button class="search-btn"><i class="fas fa-search"></i> Search</button>
+          </div>
+        </div>
+
+        <!-- Upcoming Journey (first) -->
+        <div class="journey-card" style="margin-bottom: 1.2rem;">
+          <div class="journey-header">
+            <span class="train-name"><i class="fas fa-train-subway"></i> KZJ HDP EXPRESS <span class="train-code">(17014)</span></span>
+            <span class="train-code">4339476442</span>
+          </div>
+          <div class="journey-detail">
+            <span class="j-item"><i class="far fa-calendar"></i> 18 Jun 2026</span>
+            <span class="j-item"><i class="fas fa-arrow-right"></i> SC</span>
+            <span class="j-item"><i class="fas fa-arrow-right"></i> HDP</span>
+            <span class="j-item"><i class="fas fa-chair"></i> SL</span>
+          </div>
+          <div class="action-buttons">
+            <span class="action-btn"><i class="fas fa-bed"></i> Retiring Room</span>
+            <span class="action-btn"><i class="fas fa-bus"></i> Bus</span>
+            <span class="action-btn"><i class="fas fa-utensils"></i> Order Food - E-Catering</span>
+          </div>
+        </div>
+
+        <!-- Upcoming Journey (second) -->
+        <div class="journey-card">
+          <div class="journey-header">
+            <span class="train-name"><i class="fas fa-train-subway"></i> AJANTA EXPRESS <span class="train-code">(17063)</span></span>
+            <span class="train-code">8349546374</span>
+          </div>
+          <div class="journey-detail">
+            <span class="j-item"><i class="far fa-calendar"></i> 23 Jun 2026</span>
+            <span class="j-item"><i class="fas fa-arrow-right"></i> MMR</span>
+            <span class="j-item"><i class="fas fa-arrow-right"></i> KCG</span>
+            <span class="j-item"><i class="fas fa-chair"></i> SL</span>
+          </div>
+          <div class="action-buttons">
+            <span class="action-btn"><i class="fas fa-bed"></i> Retiring Room</span>
+            <span class="action-btn"><i class="fas fa-hotel"></i> Hotel</span>
+            <span class="action-btn"><i class="fas fa-bus"></i> Bus</span>
+            <span class="action-btn"><i class="fas fa-utensils"></i> Order Food - E-Catering</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- RIGHT COLUMN : Upcoming Journey summary & search -->
+      <div>
+
+        <!-- extra journey cards (mirror style) but we already have two in left, but we put another one with "Upcoming Journey" title -->
+        <div style="background: #f9fcff; border-radius: 1.8rem; padding: 1.2rem 1.5rem; border: 1px solid #e8eff8; margin-bottom: 1.5rem;">
+          <div class="card-title" style="margin-bottom: 0.2rem;"><i class="fas fa-clock"></i> Upcoming Journey</div>
+          <div class="journey-card" style="background: transparent; padding: 0.5rem 0 0 0; border: none; box-shadow: none; margin-bottom: 0.2rem;">
+            <div class="journey-header">
+              <span class="train-name"><i class="fas fa-train-subway"></i> KZJ HDP EXPRESS <span class="train-code">(17014)</span></span>
+              <span class="train-code">4339476442</span>
+            </div>
+            <div class="journey-detail">
+              <span class="j-item"><i class="far fa-calendar"></i> 18 Jun 2026</span>
+              <span class="j-item"><i class="fas fa-arrow-right"></i> SC</span>
+              <span class="j-item"><i class="fas fa-arrow-right"></i> HDP</span>
+              <span class="j-item"><i class="fas fa-chair"></i> SL</span>
+            </div>
+            <div class="action-buttons" style="border-top: none; padding-top: 0.2rem;">
+              <span class="action-btn"><i class="fas fa-bed"></i> Retiring Room</span>
+              <span class="action-btn"><i class="fas fa-bus"></i> Bus</span>
+              <span class="action-btn"><i class="fas fa-utensils"></i> Order Food - E-Catering</span>
+            </div>
+          </div>
+          <hr>
+          <div class="journey-card" style="background: transparent; padding: 0.5rem 0 0 0; border: none; box-shadow: none;">
+            <div class="journey-header">
+              <span class="train-name"><i class="fas fa-train-subway"></i> AJANTA EXPRESS <span class="train-code">(17063)</span></span>
+              <span class="train-code">8349546374</span>
+            </div>
+            <div class="journey-detail">
+              <span class="j-item"><i class="far fa-calendar"></i> 23 Jun 2026</span>
+              <span class="j-item"><i class="fas fa-arrow-right"></i> MMR</span>
+              <span class="j-item"><i class="fas fa-arrow-right"></i> KCG</span>
+              <span class="j-item"><i class="fas fa-chair"></i> SL</span>
+            </div>
+            <div class="action-buttons" style="border-top: none; padding-top: 0.2rem;">
+              <span class="action-btn"><i class="fas fa-bed"></i> Retiring Room</span>
+              <span class="action-btn"><i class="fas fa-hotel"></i> Hotel</span>
+              <span class="action-btn"><i class="fas fa-bus"></i> Bus</span>
+              <span class="action-btn"><i class="fas fa-utensils"></i> Order Food - E-Catering</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Search Trains big button -->
+        <div class="search-trains-link">
+          <a href="#"><i class="fas fa-search"></i> Search Trains</a>
+        </div>
+
+        <!-- small extra: "Order Food - E-Catering" standalone (like in image) -->
+        <div style="margin-top: 1.5rem; background: #f2f8ff; border-radius: 40px; padding: 0.4rem 1.2rem; display: inline-block; border: 1px solid #d0def0;">
+          <span style="font-weight: 600; color: #1f4a6e; font-size: 0.8rem;"><i class="fas fa-utensils" style="margin-right: 6px;"></i> Order Food - E-Catering</span>
+        </div>
+
+      </div>
+      <!-- end two-col -->
+    </div>
+
+    <!-- footer note (optional) -->
+    <div style="margin-top: 1.8rem; font-size: 0.7rem; color: #6f8aa6; border-top: 1px solid #e3ebf5; padding-top: 1rem; text-align: right; display: flex; justify-content: space-between; flex-wrap: wrap;">
+      <span><i class="far fa-clock"></i> Last updated: 16-Jun-2026 17:58</span>
+      <span><i class="fas fa-shield-alt"></i> Secure booking</span>
+    </div>
+
+  </div>
+</body>
+</html>
